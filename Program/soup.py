@@ -34,8 +34,8 @@ class NUScraper:
                 print(value)
 
 
-    def listgen(opffile):
-        data=[]
+    def listgen(self,opffile):
+        self.data=[]
         serieslist={'series':[],'path':[]}
         #serieslist=[]
 
@@ -58,7 +58,23 @@ class NUScraper:
 
         search(search_term, tld='com', lang='en', num=10, stop=1, pause=2)
 
+def listgen(opffile):
+        data=[]
+        serieslist={'series':[],'path':[]}
+        #serieslist=[]
 
+        for f in opffile:
+            #append f to the serieslist path
+            serieslist['path']=f
+
+            with open(f, 'r') as fi:
+                soup=BeautifulSoup(fi, 'lxml')
+                for meta in soup.find_all('meta'):
+                    if meta.get('name')=='calibre:series':
+                        if meta.get('content') =='HumbleBundle Books':
+                            continue
+                        serieslist['series']=meta.get('content')
+            data.append(serieslist)
 
 
 if __name__=='__main__':
