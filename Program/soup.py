@@ -16,30 +16,18 @@ paths='/run/media/alexander/Samsung T5/Linux/Full Library'
 namespaces='{http://www.idpf.org/2007/opf, http://purl.org/dc/elements/1.1/}'
 
 class NUScraper:
-    def __init__(self, path, namespaces):
-        self.path=path
+    def __init__(self):
         self.namespaces=namespaces
-        self.localopffile=glob.glob(path+'/*.opf', recursive=True)
+        #self.localopffile=glob.glob(path+'/*.opf', recursive=True)
         #self.opffile.sort()
+        self.opffile=variables.items
         self.data=[]
         self.serieslist={'series':[],'path':[]}
-        self.serieslist=[]
-        search_term=self.data
-    def tbd(): #to be done, not yet implemented, will be used to search for genres and tags in webpage
-        soup=BeautifulSoup(open(item), 'html.parser')
-        genres=soup.find_all('meta')
-        for genre in genres:
-            value=genre.get('content')
-            neededtype=genre.get('property')
-            if neededtype=='genre':
-                print(value)
-
-
-    def listgen(self,opffile):
         
+        search_term=self.data
+    def listgen(self):
+        opffile=variables.items
         serieslist={'series':[],'path':[]}
-        #serieslist=[]
-
         for f in opffile:
             #append f to the serieslist path
             serieslist['path']=f
@@ -49,22 +37,33 @@ class NUScraper:
                 for meta in soup.find_all('meta'):
                     if meta.get('name')=='calibre:series':
                         if meta.get('content') =='HumbleBundle Books'or meta.get('content') =='Python':
-                            self.serieslist['series']='No Series'
+                            serieslist['series']='No Series'
                             continue
-                        self.serieslist['series']=meta.get('content')
-            self.data.append(self.serieslist)
+                        serieslist['series']=meta.get('content')
+            self.data.append(serieslist)
+    def tbd(): #to be done, not yet implemented, will be used to search for genres and tags in webpage
+        soup=BeautifulSoup(open(item), 'html.parser')
+        genres=soup.find_all('meta')
+        for genre in genres:
+            value=genre.get('content')
+            neededtype=genre.get('property')
+            if neededtype=='genre':
+                print(value)
+    
+    
 
         #print(data)               
             
     def Search(self):#search google for series + novelupdates, to be done
-        term=self.data
-        print(term)
+        data=self.data
+        print('Data:', data)
 
 if __name__=='__main__':
-    NUScraper.listgen(NUScraper, opffile=variables.items)
+    NUScraper.listgen(NUScraper)
+    NUScraper.Search(NUScraper)
    # NUScraper.Search(search_term=NUScraper.data)
     #print(self.data)
-    NUScraper.Search(NUScraper)
+    #NUScraper.Search(NUScraper)
 #if __name__=='__main__':
  #   listgen(opffile=variables.items)
     
