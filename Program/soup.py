@@ -24,6 +24,7 @@ class NUScraper:
         self.data=[]
         self.serieslist={'series':[],'path':[]}
         self.serieslist=[]
+        search_term=self.data
     def tbd():
         soup=BeautifulSoup(open(item), 'html.parser')
         genres=soup.find_all('meta')
@@ -35,7 +36,7 @@ class NUScraper:
 
 
     def listgen(self,opffile):
-        self.data=[]
+        
         serieslist={'series':[],'path':[]}
         #serieslist=[]
 
@@ -47,37 +48,23 @@ class NUScraper:
                 soup=BeautifulSoup(fi, 'lxml')
                 for meta in soup.find_all('meta'):
                     if meta.get('name')=='calibre:series':
-                        if meta.get('content') =='HumbleBundle Books':
+                        if meta.get('content') =='HumbleBundle Books'or meta.get('content') =='Python':
+                            serieslist['series']='No Series'
                             continue
                         serieslist['series']=meta.get('content')
-            data.append(serieslist)
+            self.data.append(serieslist)
 
         #print(data)               
             
     def Search(search_term):
 
-        search(search_term, tld='com', lang='en', num=10, stop=1, pause=2)
-
-def listgen(opffile):
-        data=[]
-        serieslist={'series':[],'path':[]}
-        #serieslist=[]
-
-        for f in opffile:
-            #append f to the serieslist path
-            serieslist['path']=f
-
-            with open(f, 'r') as fi:
-                soup=BeautifulSoup(fi, 'lxml')
-                for meta in soup.find_all('meta'):
-                    if meta.get('name')=='calibre:series':
-                        if meta.get('content') =='HumbleBundle Books':
-                            continue
-                        serieslist['series']=meta.get('content')
-            data.append(serieslist)
-
+        print(search_term)
 
 if __name__=='__main__':
-    listgen(opffile=variables.items)
+    NUScraper.listgen(NUScraper, opffile=variables.items)
+   # NUScraper.Search(search_term=NUScraper.data)
+    print(self.data)
+#if __name__=='__main__':
+ #   listgen(opffile=variables.items)
     
     
