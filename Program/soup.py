@@ -25,7 +25,7 @@ class NUScraper:
         self.serieslist={'series':[],'path':[]}
         self.serieslist=[]
         search_term=self.data
-    def tbd():
+    def tbd(): #to be done, not yet implemented, will be used to search for genres and tags in webpage
         soup=BeautifulSoup(open(item), 'html.parser')
         genres=soup.find_all('meta')
         for genre in genres:
@@ -49,21 +49,22 @@ class NUScraper:
                 for meta in soup.find_all('meta'):
                     if meta.get('name')=='calibre:series':
                         if meta.get('content') =='HumbleBundle Books'or meta.get('content') =='Python':
-                            serieslist['series']='No Series'
+                            self.serieslist['series']='No Series'
                             continue
-                        serieslist['series']=meta.get('content')
-            self.data.append(serieslist)
+                        self.serieslist['series']=meta.get('content')
+            self.data.append(self.serieslist)
 
         #print(data)               
             
-    def Search(search_term):
-
-        print(search_term)
+    def Search(self):#search google for series + novelupdates, to be done
+        term=self.data
+        print(term)
 
 if __name__=='__main__':
     NUScraper.listgen(NUScraper, opffile=variables.items)
    # NUScraper.Search(search_term=NUScraper.data)
-    print(self.data)
+    #print(self.data)
+    NUScraper.Search(NUScraper)
 #if __name__=='__main__':
  #   listgen(opffile=variables.items)
     
