@@ -10,17 +10,16 @@ import variables
 from googlesearch import search
 import requests
 from lxml import html
+import variables
 
 '''
 Testing only
 '''
-page=glob.glob('./**/*.html', recursive=True)
-paths='/run/media/alexander/Samsung T5/Linux/new Full Library'
-namespaces='{http://www.idpf.org/2007/opf, http://purl.org/dc/elements/1.1/}'
+
 
 class NUScraper:
     def __init__(self):
-        self.namespaces=namespaces
+        self.namespaces=variables.namespaces
         #self.localopffile=glob.glob(path+'/*.opf', recursive=True)
         #self.opffile.sort()
         self.opffile=variables.items
@@ -29,7 +28,7 @@ class NUScraper:
         self.tags=['manual editing needed']
         self.result=[]
         self.link=[]
-        self.censoredlist=['Interc**se', 'S*x']
+        self.censoredlist=variables.list
         self.replacelist=[]
     
 
