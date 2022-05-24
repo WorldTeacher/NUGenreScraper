@@ -1,3 +1,4 @@
+from mailbox import NoSuchMailboxError
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 import os
@@ -7,12 +8,14 @@ import glob
 import xml.etree.ElementTree as ET
 import variables
 from googlesearch import search
+import requests
+from lxml import html
 
 '''
 Testing only
 '''
 page=glob.glob('./**/*.html', recursive=True)
-paths='/run/media/alexander/Samsung T5/Linux/Full Library'
+paths='/run/media/alexander/Samsung T5/Linux/new Full Library'
 namespaces='{http://www.idpf.org/2007/opf, http://purl.org/dc/elements/1.1/}'
 
 class NUScraper:
@@ -23,48 +26,55 @@ class NUScraper:
         self.opffile=variables.items
         self.data=[]
         self.serieslist={'series':[],'path':[]}
-        
-        search_term=self.data
-    def listgen(self):
-        opffile=variables.items
-        serieslist={'series':[],'path':[]}
-        for f in opffile:
-            #append f to the serieslist path
-            serieslist['path']=f
+        self.tags=['manual editing needed']
 
+    def add_tags(self):
+        pass
+
+    def get_opf_path(self):
+        #get_opf_count()
+        opffile=variables.items
+        pathdict={'index':[],'path':[],'series':[]}
+       
+        x=0
+        for f in opffile:
+            x+=1
+            pathdict['path']=f
+            pathdict['index']=x
             with open(f, 'r') as fi:
                 soup=BeautifulSoup(fi, 'lxml')
                 for meta in soup.find_all('meta'):
                     if meta.get('name')=='calibre:series':
-                        if meta.get('content') =='HumbleBundle Books'or meta.get('content') =='Python':
-                            serieslist['series']='No Series'
-                            continue
-                        serieslist['series']=meta.get('content')
-            self.data.append(serieslist)
-    def tbd(): #to be done, not yet implemented, will be used to search for genres and tags in webpage
-        soup=BeautifulSoup(open(item), 'html.parser')
-        genres=soup.find_all('meta')
-        for genre in genres:
-            value=genre.get('content')
-            neededtype=genre.get('property')
-            if neededtype=='genre':
-                print(value)
-    
-    
-
-        #print(data)               
+                        pathdict['series']=meta.get('content')
+                        self.data.append(pathdict.copy()) 
+                        #print(safe1)       
+            #print(pathdict)
             
-    def Search(self):#search google for series + novelupdates, to be done
-        data=self.data
-        print('Data:', data)
+        
 
+
+   
+    def Search(self):
+        search_term=self.data
+        for name in self.data:
+            query=name['series']
+            domain='novelupdates.com'
+            if query=='Python' or query =='HumbleBundle' or query=='Japanese'
+                tags=['manual editing needed']
+                self.add_tags(tags)
+            lookup=query + " " + domain
+            print('looking for: ',query)
+            results = search(lookup, tld="com", num=10,stop=10, pause=2)
+            time.sleep(2)
+            # displaying the searched result links
+            for result in results:
+                print(result)
+            
 if __name__=='__main__':
-    NUScraper.listgen(NUScraper)
-    NUScraper.Search(NUScraper)
-   # NUScraper.Search(search_term=NUScraper.data)
-    #print(self.data)
-    #NUScraper.Search(NUScraper)
-#if __name__=='__main__':
- #   listgen(opffile=variables.items)
+    scraper=NUScraper()
+    scraper.get_opf_path()
+    scraper.Search()
+    #scraper.Search()
+    #NUScraper().Search()
     
     
