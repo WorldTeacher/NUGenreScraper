@@ -1,14 +1,10 @@
 
 from bs4 import BeautifulSoup
 from urllib.request import urlopen, Request
-
 import re
 import time
-import glob
-import xml.etree.ElementTree as ET
 import variables
 from googlesearch import search
-import requests
 from lxml import html
 import variables
 
@@ -20,53 +16,62 @@ Testing only
 class NUScraper:
     def __init__(self):
         self.namespaces=variables.namespaces
-        #self.localopffile=glob.glob(path+'/*.opf', recursive=True)
-        #self.opffile.sort()
-        self.opffile=variables.items
+        self.opffile=variables.censors
         self.data=[]
         self.serieslist={'series':[],'path':[]}
         self.tags=['manual editing needed']
         self.result=[]
         self.link=[]
         self.censoredlist=variables.list
-        self.replacelist=[]
-    
+        self.replacelist=variables.replacelist
+        self.sort=variables.sorting
+        self.taglist=[]
+        
+    def etacalc(self):
+        #this is a rough estimate on how long it will take to complete the process
+        #it is based on the number of opf files in the specified Calibre Library Folder, and the current delays
+        #it is not accurate
+        opffile=variables.items
+        
+        opfcount=len(opffile)
+        eta=opfcount*4 #this is the pure delay of the search, processing not included
+        eta_h=eta/3600
+        print('The script will now search metadata for '+str(opfcount)+' novels.')
+        print('This will take at least '+str(round(eta_h))+' hours.') 
 
-    def get_opf_path(self):
+        #print('opf count: '+str(opfcount))
+    def get_opf_path(self):#this function gets the path to all opf files in the specified Calibre Library Folder
         #get_opf_count()
         opffile=variables.items
         pathdict={'index':[],'path':[],'series':[]}
        
-        x=0
+        x=0 #counter for index
         for f in opffile:
             x+=1
             pathdict['path']=f
             pathdict['index']=x
+
             with open(f, 'r') as fi:
                 soup=BeautifulSoup(fi, 'lxml')
                 for meta in soup.find_all('meta'):
                     if meta.get('name')=='calibre:series':
                         pathdict['series']=meta.get('content')
                         self.data.append(pathdict.copy()) 
-                        #print(safe1)       
-            #print(pathdict)
-            
-        
-
 
    
-    def Search_links(self):
-        search_term=self.data
+    def Search_links(self): #this function searches for the link to the novels based on the result of get_opf_path()
+        #search_term=self.data
+        
         for name in self.data:
             #query=name['series']
-            query='overgeared'
-            domain='novelupdates.com'
+            query='overgeared' #example for testing
+            domain='novelupdates.com' #what page to search, only novelupdates.com is supported, but other sites could be added (PR welcome)
             '''if query=='Python' or query =='HumbleBundle' or query=='Japanese':
                 tags=['manual editing needed']
                 self.add_tags(tags)'''
             lookup=query + " " + domain
-            print('looking for: ',query)
-            results = search(lookup, tld="com", num=10,stop=10, pause=2)
+            #print('looking for: ',query)
+            results = search(lookup, tld="com", num=10,stop=10, pause=2) #search for the query, and return the first 10 results
             time.sleep(2)
             # displaying the searched result links
             '''for result in results:
@@ -74,21 +79,21 @@ class NUScraper:
             self.result=results
             return self.result
 
-    def find_link(self):
+    def find_link(self): #this function finds the link to the novel based on the result of Search_links(); basic cleanup is done
         for result in self.result:
             if 'novelupdates.com/series/' in result:
                 link=result
                 self.link=link
-                print('link: '+self.link)
+                #print('link: '+self.link)
                 return self.link
+
     def get_tags(self):
         remove=['/comment-page-2/','comment-page-3/', 'comment-page-4']
-        query='https://www.novelupdates.com/series/overgeared/comment-page-3/'#
-        #if /comment-page-* in query: remove it
+        query=self.link
         for entry in remove:
             if entry in query:
                 query=query.replace(entry,'')
-        
+        print(query)
         openurl=Request(query, headers={'User-Agent': 'Mozilla/5.0'})
         webpage=urlopen(openurl).read()
         
@@ -103,27 +108,49 @@ class NUScraper:
             if neededtype=='genre':
                 genrelist.append(value)
         #get meta for tags
-        taglist=[]
+        
         tags=soup.find("div", {"id": 'showtags'})
         for tag in tags:
-            #remove everythin in <>
-            x = re.sub('<[^>]*>', '', str(tag))
-            if x == ' ' or x=='\n':
+        #remove everything in <>
+            tag=re.sub('<[^>]*>', '', str(tag))
+            #print(tag)
+            if tag== ' ':
                 continue
-            if x in self.censoredlist:
-                
-                taglist.append(x)
+            elif tag=='\n':
+                continue
+            else:
+                if '*' in tag:
+                    tag=tag.replace(tag,self.replacelist['new'][self.replacelist['old'].index(tag)])
+                    self.taglist.append(tag)
+                else:
+                    self.taglist.append(tag)
+        if self.sort ==True:
+            self.sort_tags()
             
+        #self.replmap(list=taglist)
         print('genres: '+str(genrelist))
-        print('tags: '+str(taglist))
-    def test(self):
-        print(self.link)        
+        print('tags: '+str(self.taglist))
+    def sort_tags(self):
+        #this function ,if enabled, sorts the tags into multiple lists to make the calibre tags sorted
+        sortedlist=[]
+        sortlist=['Protagonist','Magic','Adapted','Game-like Elements']
+        for sorter in sortlist:
+            for tag in self.taglist:
+                if sorter in tag:
+                    if sorter =='Adapted':
+                        self.taglist.remove(tag)
+                        addtag='Adaptation'+'.'+tag
+                        sortedlist.append(addtag)
+                    elif sorter =='Game-like Elements':
+                        tags=['MMORPG','Level','Game Ranking System']
+                    else:
+                        self.taglist.remove(tag)
+                        addtag=sorter+'.'+tag
+                        sortedlist.append(addtag)
 
-
-    def print(self, var):
-        if var =='result':
-            print(self.data)
-
+                else:
+                    continue
+        print('sortedlist: '+str(sortedlist))
     def main(self):
         #scraper=NUScraper()
         self.get_opf_path()
@@ -132,6 +159,18 @@ class NUScraper:
         self.get_tags()
         
 if __name__=='__main__':
+    
+    print('calculating ETA...')
     scraper=NUScraper()
-    #scraper.main()
-    scraper.replmap()
+    scraper.etacalc()
+    time.sleep(0.5)
+    cont=input('Do you want to continue? (y/n): ')
+    if cont=='y':
+        scraper.main()
+    else:
+        print('exiting')
+        exit()
+    #dec=True
+    #dec=input('Should I censor the tags? (True or False):')
+    #scraper.main(dec=input('Should I censor the tags? (True or False):'))
+    #scraper.replmap()
