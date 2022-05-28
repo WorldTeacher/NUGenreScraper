@@ -19,7 +19,8 @@ list=['Interc**rse','S*x', 'Weak to Strong','Petty Protagonist']
 listrepl=['First Time Intercourse','Intercourse','Sex', 'Rape','Slaves','Fellatio','Handjob','Masturbation','Anal','Prostitutes','Sex Slaves']
 censors=['First Time Interc**rse','Interc**rse','S*x','R*pe','S*aves','F*llatio','H*ndjob','M*sturbation','An*l','Prostit**es','S*x S*aves']
 replacelist={'old': ['First-time Interc**rse', 'Interc**rse', 'S*x', 'R*pe', 'S*aves', 'F*llatio', 'H*ndjob', 'M*sturbation', 'An*l', 'Prostit**es', 'S*x S*aves'], 'new': ['First-time Intercourse', 'Intercourse', 'Sex', 'Rape', 'Slaves', 'Fellatio', 'Handjob', 'Masturbation', 'Anal', 'Prostitutes', 'Sex Slaves']}
-
+tags=['test1','test2']
+testfile=glob.glob('Program/test.txt')
 '''
 Real Variables below this, to be implemented later on
 '''

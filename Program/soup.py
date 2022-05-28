@@ -15,8 +15,6 @@ Testing only
 
 class NUScraper:
     def __init__(self):
-        self.namespaces=variables.namespaces
-        self.opffile=variables.censors
         self.data=[]
         self.serieslist={'series':[],'path':[]}
         self.tags=['manual editing needed']
@@ -63,8 +61,8 @@ class NUScraper:
         #search_term=self.data
         
         for name in self.data:
-            #query=name['series']
-            query='overgeared' #example for testing
+            query=name['series']
+            #query='overgeared' #example for testing
             domain='novelupdates.com' #what page to search, only novelupdates.com is supported, but other sites could be added (PR welcome)
             '''if query=='Python' or query =='HumbleBundle' or query=='Japanese':
                 tags=['manual editing needed']
@@ -154,9 +152,15 @@ class NUScraper:
     def main(self):
         #scraper=NUScraper()
         self.get_opf_path()
-        self.Search_links()
-        self.find_link()
-        self.get_tags()
+        for i in range(0,len(self.data)):
+            self.Search_links()
+            self.find_link()
+            self.get_tags()
+            #self.data[i]['tags']=self.taglist
+            #self.taglist=[]
+        #self.Search_links()
+        #self.find_link()
+        #self.get_tags()
         
 if __name__=='__main__':
     
