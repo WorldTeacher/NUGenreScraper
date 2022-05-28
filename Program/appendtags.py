@@ -58,3 +58,4 @@ def append_tags():
         #f.write()
 if __name__=='__main__':
     append_tags()
+    prtin(test)
