@@ -2,12 +2,15 @@ import os
 import re
 import sys
 import glob
-
+import json
 '''
 Declare variables used in the script
 '''
+with open('config.json') as config_file:
+    data=json.load(config_file)
 
 items=glob.glob('/mnt/sd/Full Library/**/*.opf', recursive=True)
+db_path=data['calibre']['database_path']
 test_copy=glob.glob('/home/alexander/GitHub/NUGenreScraper/Program/* copy.opf', recursive=True)
 test=glob.glob('/home/alexander/GitHub/NUGenreScraper/Program/metadata.opf', recursive=True)
 
