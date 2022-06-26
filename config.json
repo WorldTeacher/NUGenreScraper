@@ -10,6 +10,7 @@
     "categories":{
         "Action":"None",
         "Protagonist":"'Quick-witted','Dim'"
-    }
+    },
+    "decensor":"True"
     
 }
