@@ -2,3 +2,5 @@ metadata*.xml
 
 _new.opf
 *.opf
+/epubcreator/*
+/testscripts/*
