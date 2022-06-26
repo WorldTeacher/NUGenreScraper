@@ -3,13 +3,15 @@ import re
 import sys
 import glob
 import json
+
+from numpy import sort
 '''
 Declare variables used in the script
 '''
 with open('config.json') as config_file:
     data=json.load(config_file)
 
-items=glob.glob(path +'/**/*.opf', recursive=True)
+#items=glob.glob(path +'/**/*.opf', recursive=True)
 db_path=data['calibre']['database_path']
 test_copy=glob.glob('/home/alexander/GitHub/NUGenreScraper/Program/* copy.opf', recursive=True)
 test=glob.glob('/home/alexander/GitHub/NUGenreScraper/Program/metadata.opf', recursive=True)
@@ -36,4 +38,5 @@ Calibre_opf_files=glob.glob(Calibre_Library_Path+'**/metadata.opf', recursive=Tr
 censored=data['taglist']['censored']
 uncensored=data['taglist']['uncensored']
 replacelist={'old': censored, 'new': uncensored}
-sorting=True
+sorting=data['decensor']
+
