@@ -15,6 +15,9 @@ I have now moved on to directly writing to the database (testing only atm) and r
 
 Since this project is open source, anyone should be able to use it, and so, I decided to learn about configuration files and how to use them
 
+**De-censoring** 
+I don't really like censored tags, so I decided to go ahead and created a list in the config file with all censored tags. I added a toggle in the config file to change wether or not the program should decensor or not
+
 ### *Current Status*
 
 As of right now, the program is only for testing.
