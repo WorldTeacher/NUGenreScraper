@@ -17,35 +17,32 @@ It should get the tags and genres, add them to a dict with the corresponding boo
 
 class NUScraper:
     def __init__(self):
-        self.path=os.getcwd()
+        #self.path=os.getcwd()
         self.data = []
         self.serieslist = {'series': [], 'path': []}
-        self.censoredlist=variables.list
         self.replacelist=variables.replacelist
         self.taglist=[]
         self.alltaglist=[]
         self.alltags={'tags':[],'bookid':[],'id':[]}
+        self.decensor=variables.sorting
         #self.main()
-        print(self.path)
+        #print(self.path)
     
     def testing(self):#testing individual functions and merged functions will be done here
         self.make_datalist()
-        for entry in self.data:
-            query=entry['series']
-            domain='novelupdates.com' #what page to look for
-            lookup=query + ' ' + domain
-            results = search(lookup, tld="com", num=10,stop=10, pause=2) #search for the query, and return the first 10 results
-            time.sleep(2)
-            for result in results:
-                if 'novelupdates.com/series/' in result:
-                    #remove the comment-page-2/ comment-page-3/ comment-page-4 from the link
-                    result=result.replace('comment-page-2/','')
+        
                     
 
     def make_datalist(self):
+        '''
+        This function does the following:
+        1. it takes a look at the Calibre Library folder and for each .opf file (the place where calibre stores metadata as backup)
+        2. using the opf file and it's folderpath, it extracts the Series name and database id of the book
+        3. using this data, it creates a .csv file for further use 
+        '''
         data=[]
         pathdict={'index':[],'series':[],'id':[]}
-        opffile=variables.items
+        opffile=variables.Calibre_opf_files
         x=0 #counter for index
         for f in opffile:
             x+=1
@@ -76,10 +73,11 @@ class NUScraper:
             os.remove(file)
     def main(self):
         '''
-        This code does the following:
+        This function does the following:
+        1.
         1. it makes a list for the ids of all books associated with the series
         2. for each series, it searches the web and return the first result, which will be used to grab the tags and genres
-        3. the grabbed tags and genres will be 
+        3. the grabbed tags and genres will be written to the database
         '''
         file="/home/alexander/GitHub/NUGenreScraper/sortedlist.csv"
         #self.make_datalist()
@@ -92,15 +90,16 @@ class NUScraper:
             domain='novelupdates.com'
             lookup='"' + seriesname + '" ' + domain
             print(lookup)
+
+            #time.sleep(3)
+            results = search(lookup, tld="com", num=10,stop=1, pause=3) #search for the query, and return the first n results
             time.sleep(3)
-            '''results = search(lookup, tld="com", num=10,stop=1, pause=3) #search for the query, and return the first n results
-            time.sleep(3)
-            for result[1] in results:
+            for result in results:
                 if 'novelupdates.com/series/' in result:
                     #remove the comment-page-2/ comment-page-3/ comment-page-4 from the link
                     result=result.replace('comment-page-*','')
-                    print(result)
-'''
+            print(result)
+
             
 
 
