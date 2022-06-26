@@ -4,3 +4,7 @@ _new.opf
 *.opf
 /epubcreator/*
 /testscripts/*
+Program/epubcreator/*
+Program/testscripts/*
+Program/testscripts
+Program/epubcreator
