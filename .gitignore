@@ -4,8 +4,5 @@ _new.opf
 *.opf
 /epubcreator/*
 /testscripts/*
-Program/epubcreator/*
-Program/testscripts/*
-Program/testscripts
-Program/epubcreator
-Program/epubcreator/makeepub.py
+Program/epubcreator/
+Program/testscripts/
