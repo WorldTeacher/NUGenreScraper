@@ -24,14 +24,25 @@ class NUScraper:
         self.taglist=[]
         self.alltaglist=[]
         self.alltags={'tags':[],'bookid':[],'id':[]}
-        self.decensor=variables.sorting
+        self.decensor=variables.censoring
         #self.main()
         #print(self.path)
     
     def testing(self):#testing individual functions and merged functions will be done here
-        self.make_datalist()
-        
-                    
+        #self.make_datalist()
+        genrelist=[] # all genres for the single book
+        genredict={'genre':[],'identification':[]}
+        genredictlist=[]
+        z=1
+        for entry in list(variables.replacelist['old']):
+            print(entry)
+            if entry not in genredict:
+                genredict['genre']=entry
+                genredict['identification']=z
+                genredictlist.append(genredict.copy())
+            z+=1
+        print(genredict)
+        print(genredictlist)
 
     def make_datalist(self):
         '''
@@ -98,8 +109,23 @@ class NUScraper:
                 if 'novelupdates.com/series/' in result:
                     #remove the comment-page-2/ comment-page-3/ comment-page-4 from the link
                     result=result.replace('comment-page-*','')
-            print(result)
-
+            self.websearch(result)
+    def websearch(self,item):
+        '''
+        The websearch will get the required metadata and put it in lists and dict
+        '''
+        genrelist=[] # all genres for the single book
+        genredict={'genre':[],'identification':[]}
+        openurl=Request(item, headers={'User-Agent': 'Mozilla/5.0'})
+        webpage=urlopen(openurl).read()
+        
+        soup=BeautifulSoup(webpage, 'lxml')
+        genres=soup.find_all('meta')
+        for genre in genres:
+            value=genre.get('content')
+            neededtype=genre.get('property')
+            if neededtype=='genre':
+                genrelist.append(value)
             
 
 
@@ -107,4 +133,4 @@ class NUScraper:
 
 if __name__ == '__main__':
     nuscraper=NUScraper()
-    nuscraper.main()
+    nuscraper.testing()
