@@ -1,10 +1,8 @@
-import os
-import re
-import sys
+
 import glob
 import json
 
-from numpy import sort
+
 '''
 Declare variables used in the script
 '''
@@ -35,8 +33,11 @@ Calibre_opf_files=glob.glob(Calibre_Library_Path+'**/metadata.opf', recursive=Tr
 
 #Tags below this line
 #If a new replacelist is needed, or if tags need to be added, add them to the config.json
-censored=data['taglist']['censored']
-uncensored=data['taglist']['uncensored']
-replacelist={'old': censored, 'new': uncensored}
-sorting=data['decensor']
+#censored=data['taglist']['censored']
+#uncensored=data['taglist']['uncensored']
+#replacelist={'old': censored, 'new': uncensored}
+replacelist={'old': ['First-time Interc**rse', 'Interc**rse', 'S*x', 'R*pe', 'S*aves', 'F*llatio', 'H*ndjob', 'M*sturbation', 'An*l', 'Prostit**es', 'S*x S*aves'], 
+             'new': ['First-time Intercourse', 'Intercourse', 'Sex', 'Rape', 'Slaves', 'Fellatio', 'Handjob', 'Masturbation', 'Anal', 'Prostitutes', 'Sex Slaves']}
+censoring=data['decensor']
+
 
