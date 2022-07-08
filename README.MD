@@ -15,7 +15,7 @@ I have now moved on to directly writing to the database (testing only atm) and r
 
 Since this project is open source, anyone should be able to use it, and so, I decided to learn about configuration files and how to use them
 
-**De-censoring** 
+**De-censoring** (to be done again)
 I don't really like censored tags, so I decided to go ahead and created a list in the config file with all censored tags. I added a toggle in the config file to change wether or not the program should decensor or not
 
 ### *Current Status*
@@ -25,6 +25,9 @@ As of right now, the program is only for testing.
 It is able to search the web for the title and get the link.
 
 In a testfile, I'm able to access the database and write data to it,  but I have not yet tested it for multiple series and for multiple tags at once.
+
+The genres / tags will now be written to csv files so that the data will only be grabbed and written once.
+in the csv, the tags will have the corresponding id's, so that the program can write to the database.
 
 For the Database write, I'm debating wether or not to store all tags and ids in a dict to make a mass write at the end 
 (something like this:

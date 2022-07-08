@@ -20,6 +20,8 @@ paths='/run/media/alexander/Samsung T5/Linux/new Full Library'
 namespaces='{http://www.idpf.org/2007/opf, http://purl.org/dc/elements/1.1/}'
 list=['Interc**rse','S*x', 'Weak to Strong','Petty Protagonist']
 
+test_db=data['test_calibre']['database_path']
+
 tags=['test1','test2']
 '''
 Real Variables below this, to be implemented later on
@@ -39,5 +41,6 @@ Calibre_opf_files=glob.glob(Calibre_Library_Path+'**/metadata.opf', recursive=Tr
 replacelist={'old': ['First-time Interc**rse', 'Interc**rse', 'S*x', 'R*pe', 'S*aves', 'F*llatio', 'H*ndjob', 'M*sturbation', 'An*l', 'Prostit**es', 'S*x S*aves'], 
              'new': ['First-time Intercourse', 'Intercourse', 'Sex', 'Rape', 'Slaves', 'Fellatio', 'Handjob', 'Masturbation', 'Anal', 'Prostitutes', 'Sex Slaves']}
 censoring=data['decensor']
+
 
 

@@ -11,6 +11,9 @@
         "Action":"None",
         "Protagonist":"'Quick-witted','Dim'"
     },
-    "decensor":"True"
+    "decensor":"True",
+    "test_calibre":{
+        "database_path":"/home/alexander/test/metadata.db"
+    }
     
 }
