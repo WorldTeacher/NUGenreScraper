@@ -21,7 +21,7 @@ namespaces='{http://www.idpf.org/2007/opf, http://purl.org/dc/elements/1.1/}'
 list=['Interc**rse','S*x', 'Weak to Strong','Petty Protagonist']
 
 test_db=data['test_calibre']['database_path']
-
+print(test_db)
 tags=['test1','test2']
 '''
 Real Variables below this, to be implemented later on
@@ -29,6 +29,8 @@ Real Variables below this, to be implemented later on
 
 #Calibre-specific Variables below this line
 Calibre_Library_Path=data['calibre']['library_path']
+Calibre_Database_Path=data['calibre']['database_path']
+print(Calibre_Database_Path)
 #in Calibre_Library_Path, find all opf files
 Calibre_opf_files=glob.glob(Calibre_Library_Path+'**/metadata.opf', recursive=True)
 
