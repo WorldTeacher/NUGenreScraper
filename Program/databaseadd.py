@@ -105,7 +105,15 @@ cursor.close()
 print("Database connection is closed")
 #find tag id for each tag in the csv
 for tag in csv_tags['0']:
-
+    cursor.execute("SELECT COUNT(*) FROM  custom_column_21 WHERE name=?",(tag,))
+    record = cursor.fetchall()
+    for row in record:
+        if row[0]==0:
+            cursor.execute("INSERT INTO  custom_column_21 (name) VALUES (?)",(tag,))
+            sqliteConnection.commit()
+            print("Genre added: ",tag)
+        else:
+            print("Genre already in database: ",tag)
 '''
 query='select'
 print(test_db)
