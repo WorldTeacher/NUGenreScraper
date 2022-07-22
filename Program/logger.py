@@ -8,7 +8,7 @@ class log:
         self.handler = logging.FileHandler('program_log.log')
         self.handler.setLevel(logging.DEBUG)
         # Create a logging format
-        formatter = logging.Formatter('%(asctime)s - %(name)s- %(levelname)s - %(message)s')
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         self.handler.setFormatter(formatter)
         # Add the handlers to the logger
         self.logger.addHandler(self.handler)
