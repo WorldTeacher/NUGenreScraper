@@ -8,3 +8,5 @@ Program/epubcreator/
 Program/testscripts/
 *.csv
 *.log
+/epubcreator
+/testscripts
