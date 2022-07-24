@@ -1,4 +1,4 @@
-
+#This script is for variables that are either hardcoded or loaded from a json file.
 import glob
 import json
 
