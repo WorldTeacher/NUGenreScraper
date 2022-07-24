@@ -10,3 +10,4 @@ Program/testscripts/
 *.log
 /epubcreator
 /testscripts
+Program/test.py
